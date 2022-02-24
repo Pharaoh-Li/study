@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    const items = new WeakMap()
+    class Stack {
+        constructor() {
+            items.set(this, [])
+        }
+        push(element) {
+            const s = items.get(this)
+            s.push(element)
+        }
+        read() {
+            const s = items.get(this)
+            return s
+        }
+    }
+    const stack = new Stack()
+    stack.push(123)
+    console.log(stack.read());
+</script>

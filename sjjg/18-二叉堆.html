@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    const Compare = {
+        LESS_THAN: -1,
+        BIGGER_THAN: 1,
+        EQUALS: 0
+    };
+    function defaultCompare(a, b) {
+        if (a === b) {
+            return Compare.EQUALS;
+        }
+        return a < b ? Compare.LESS_THAN : Compare.BIGGER_THAN;
+    }
+    function swap(array, a, b) {
+        const temp = array[a]
+        array[a] = array[b]
+        array[b] = temp
+    }
+    // const swap = (array, a, b) => [array[a], array[b]] = [array[b], array[a]]
+    //最小堆
+    class MinHeap {
+        constructor(compareFn = defaultCompare) {
+            this.compareFn = defaultCompare
+            this.heap = []
+        }
+        getLeftIndex(index) {
+            return 2 * index + 1
+        }
+        getRightIndex(index) {
+            return 2 * index + 2
+        }
+        getParentIndex(index) {
+            if (index === 0) {
+                return undefined
+            }
+            return Math.floor((index - 1) / 2)
+        }
+        insert(value) {
+            if (value != null) {
+                this.heap.push(value)
+                this.siftUp(this.heap.length - 1)
+                return true
+            }
+            return false
+        }
+        siftUp(index) {
+            let parent = this.getParentIndex(index)
+            while (index > 0 && this.compareFn(this.heap[index], this.heap[parent]) === Compare.LESS_THAN) {
+                swap(this.heap, parent, index)
+                index = parent
+                parent = this.getParentIndex(index)
+            }
+        }
+        size() {
+            return this.heap.length
+        }
+        isEmpty() {
+            return this.size() === 0
+        }
+        findMinimum() {
+            return this.isEmpty() ? undefined : this.heap[0]
+        }
+        extract() {
+            if (this.isEmpty()) {
+                return undefined
+            }
+            if (this.size() === 1) {
+                return this.heap.shift()
+            }
+            const removedValue = this.heap.shift()
+            this.siftDown(0)
+            return removedValue
+        }
+        siftDown(index) {
+            let element = index
+            const left = this.getLeftIndex(index)
+            const right = this.getRightIndex(index)
+            const size = this.size()
+            if (left < size && this.compareFn(this.heap[element], this.heap[left]) === Compare.LESS_THAN) {
+                element = left
+            }
+            if (right < size && this.compareFn(this.heap[element], this.heap[right]) === Compare.LESS_THAN) {
+                element = right
+            }
+            if (element !== index) {
+                swap(this.heap, index, element)
+                this.siftDown(element)
+            }
+        }
+    }
+    const heap = new MinHeap()
+    heap.insert(2)
+    heap.insert(3)
+    heap.insert(4)
+    heap.insert(5)
+    heap.insert(6)
+    console.log(heap.heap);
+    //最大堆
+    class MaxHeap extends MinHeap {
+        constructor(compareFn = defaultCompare) {
+            super(compareFn)
+            this.compareFn = reverseCompare(compareFn)
+        }
+    }
+    function reverseCompare(compareFn) {
+        return (a, b) => compareFn(b, a)
+    }
+    const maxHeap = new MaxHeap()
+    maxHeap.insert(2)
+    maxHeap.insert(3)
+    maxHeap.insert(4)
+    console.log(maxHeap.heap);
+</script>

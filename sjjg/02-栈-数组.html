@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    class Stack {
+        constructor() {
+            this.item = []
+        }
+        push(element) {
+            this.item.push(element)
+        }
+        pop() {
+            return this.item.pop()
+        }
+        peek() {
+            return this.item[this.item.length - 1]
+        }
+        isEmpty() {
+            return this.item.length === 0
+        }
+        size() {
+            return this.item.length
+        }
+        clear() {
+            this.item = []
+        }
+    }
+
+    function decimalToBinary(decNumber) {
+        const remStack = new Stack()
+        let number = decNumber
+        let rem
+        let binaryString = ''
+        while(number > 0) {
+            rem = Math.floor(number % 2)
+            remStack.push(rem)
+            number = Math.floor(number / 2)
+        }
+        while(!remStack.isEmpty()) {
+            binaryString += remStack.pop().toString()
+        }
+        return binaryString
+    }
+    
+    function baseConverter(decNumber, base) {
+        const remStack = new Stack()
+        const dights = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        let number = decNumber
+        let rem
+        let binaryString = ''
+        if (!(base >= 2 && base <= 36)) {
+            return
+        }
+        while (number > 0) {
+            rem = Math.floor(number % base)
+            remStack.push(rem)
+            number = Math.floor(number / base)
+        }
+        while (!remStack.isEmpty()) {
+            binaryString += dights[remStack.pop()]
+        }
+        return binaryString
+    }
+
+    console.log(decimalToBinary(2));
+    console.log(baseConverter(10, 2));
+    console.log(baseConverter(10, 10));
+    console.log(baseConverter(10, 16));
+    console.log(baseConverter(120, 36));
+</script>
