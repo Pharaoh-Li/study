@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    function countingSort(array) {
+        if (array.length < 2) {
+            return array
+        }
+        const maxValue = findMax(array)
+        const count = new Array(maxValue + 1)
+        array.forEach((item) => {
+            if (!count[item]) {
+                count[item] = 0
+            }
+            count[item] ++
+        })
+        let sortIndex = 0
+        count.forEach((item, index) => {
+            while (item > 0) {
+                array[sortIndex++] = index
+                item --
+            }
+        })
+        return array
+    }
+    function findMax (array) {
+        let max = array[0]
+        for (let i = 0;i < array.length;i ++) {
+            if (array[i] > max) {
+                max = array[i]
+            }
+        }
+        return max
+    }
+    console.log(countingSort([5,3,4,3,4,1,2]));
+</script>

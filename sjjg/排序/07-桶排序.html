@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    const arr = [9,3,4,6,32,5,6,3,7,9,1,10]
+    //插入排序
+    function insertionSort(array) {
+        for (let i = 0;i < array.length;i ++) {
+            let j = i
+            let temp = array[j]
+            while (j > 0 && array[j - 1] > temp) {
+                array[j] = array[j - 1]
+                j --
+            }
+            array[j] = temp
+        }
+        return array
+    }
+    //桶排序
+    function bucketSort(array, bucketSize = 5) {
+        if (array.length < 2) {
+            return array
+        }
+        const bucket = createBucket(array, bucketSize)
+        return sortBuckets(bucket)
+    }
+    function createBucket (array, bucketSize) {
+        let minValue = array[0]
+        let maxValue = array[0]
+        for (let i = 0;i < array.length;i ++) {
+            if (array[i] < minValue) {
+                minValue = array[i]
+            }
+            if (array[i] > maxValue) {
+                maxValue = array[i]
+            }
+        }
+        const bucketCount = Math.floor((maxValue - minValue) / bucketSize) + 1
+        const buckets = []
+        for (let i = 0;i < bucketCount;i ++) {
+            buckets[i] = []
+        }
+        for (let i = 0;i < array.length;i ++) {
+            const index = Math.floor((array[i] - minValue) / bucketSize)
+            buckets[index].push(array[i])
+        }
+        return buckets
+    }
+    function sortBuckets(bucket) {
+        const sortedBucket = []
+        for (let i = 0;i < bucket.length;i ++) {
+            if (bucket[i] != null) {
+                insertionSort(bucket[i])
+                sortedBucket.push(...bucket[i])
+            }
+        }
+        return sortedBucket
+    }
+    // console.log(bucketSort(arr));
+</script>
