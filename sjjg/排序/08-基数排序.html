@@ -12,6 +12,7 @@
 </html>
 <script>
     const arr = [4,3,6,6,7,8,5,8,3,6,9,8]
+    console.log(arr);
     //基数排序
     function radixSort (array, radixBase = 10) {
         if (array.length < 2) {
@@ -45,9 +46,11 @@
             bucketsIndex = Math.floor(((array[i] - minValue) / significantDigit) % radixBase)
             buckets[bucketsIndex] ++
         }
+        console.log(buckets);
         for (let i = 1;i < radixBase;i ++) {
             buckets[i] += buckets[i - 1]
         }
+        console.log(buckets);
         for (let i = array.length - 1;i >= 0;i --) {
             bucketsIndex = Math.floor(((array[i] - minValue) / significantDigit) % radixBase)
             aux[--buckets[bucketsIndex]] = array[i]
